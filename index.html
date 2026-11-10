@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7edf2">
+  <meta name="description" content="MONEVA — Your Money, Your Moment. Catat pemasukan, pengeluaran, budget, dan cicilan.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/moneva-192.png">
+  <link rel="apple-touch-icon" href="icons/moneva-192.png">
+  <title>MONEVA — Your Money, Your Moment</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="MONEVA home">
+        <span class="brand-mark">M</span>
+        <span><strong>MONEVA</strong><small>YOUR MONEY, YOUR MOMENT.</small></span>
+      </a>
+      <div class="side-label">MENU</div>
+      <nav class="nav">
+        <button class="nav-btn active" data-page="dashboard"><span>⌂</span> Dashboard</button>
+        <button class="nav-btn" data-page="transactions"><span>↕</span> Transaksi</button>
+        <button class="nav-btn" data-page="reports"><span>▥</span> Laporan</button>
+        <button class="nav-btn" data-page="installments"><span>▤</span> Tracker Cicilan</button>
+      </nav>
+      <div class="sidebar-note">
+        <span class="note-icon">✦</span>
+        <strong>One step at a time.</strong>
+        <p>Keuangan yang lebih tenang dimulai dari catatan kecil hari ini.</p>
+      </div>
+      <div class="sidebar-foot">MONEVA <span>•</span> DEMO VERSION</div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow" id="today-label">PERSONAL FINANCE</div>
+          <h1 id="page-title">Ringkasan keuangan</h1>
+        </div>
+        <div class="top-actions">
+          <span class="demo-pill"><i></i> Data tersimpan di perangkat ini</span>
+          <div class="avatar">M</div>
+        </div>
+      </header>
+
+      <section id="dashboard-page" class="page active">
+        <div class="welcome-row">
+          <div><h2>Halo, selamat datang ✨</h2><p>Yuk, lihat kondisi keuanganmu hari ini.</p></div>
+          <button class="primary-btn" id="quick-add">＋ Catat transaksi</button>
+        </div>
+        <div class="summary-grid">
+          <article class="balance-card">
+            <div class="card-top"><span>Total saldo tercatat</span><span class="sparkle">✧</span></div>
+            <div class="balance-value" id="balance-value">Rp0</div>
+            <div class="balance-caption">Total pemasukan dikurangi pengeluaran</div>
+            <div class="balance-bottom"><span>♡</span> Make every rupiah count.</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-icon income-icon">↙</div><span class="stat-label">Pemasukan</span>
+            <strong id="income-value">Rp0</strong><small>Bulan ini</small>
+          </article>
+          <article class="stat-card">
+            <div class="stat-icon expense-icon">↗</div><span class="stat-label">Pengeluaran</span>
+            <strong id="expense-value">Rp0</strong><small>Bulan ini</small>
+          </article>
+        </div>
+        <div class="content-grid">
+          <article class="panel budget-panel">
+            <div class="panel-heading"><div><h3>Budget bulanan</h3><p>Pantau pengeluaranmu agar tetap terarah.</p></div><span class="soft-icon">◷</span></div>
+            <div class="budget-numbers"><strong id="budget-spent">Rp0</strong><span id="budget-percent">0% terpakai</span></div>
+            <div class="progress-track"><div id="budget-progress" class="progress-fill"></div></div>
+            <div class="budget-footer"><span>Budget: <b id="budget-total-label">Rp2.000.000</b></span><span id="budget-left">Sisa Rp2.000.000</span></div>
+            <label class="field-label" for="budget-input">Atur budget bulan ini</label>
+            <div class="inline-input"><span>Rp</span><input id="budget-input" type="number" min="0" step="10000" value="2000000"><button id="save-budget" class="small-btn">Simpan</button></div>
+          </article>
+          <article class="panel">
+            <div class="panel-heading"><div><h3>Komposisi pengeluaran</h3><p>Berdasarkan kategori bulan ini.</p></div><span class="soft-icon">◌</span></div>
+            <div id="category-breakdown" class="category-breakdown"><div class="empty-state">Belum ada pengeluaran bulan ini.</div></div>
+          </article>
+        </div>
+        <article class="panel recent-panel">
+          <div class="panel-heading"><div><h3>Transaksi terbaru</h3><p>Aktivitas keuangan terakhir.</p></div><button class="text-btn" data-goto="transactions">Lihat semua →</button></div>
+          <div id="recent-list"></div>
+        </article>
+        <p class="disclaimer">MONEVA versi awal · Data contoh dapat dihapus atau diganti. Bukan aplikasi perbankan.</p>
+      </section>
+
+      <section id="transactions-page" class="page">
+        <div class="page-intro"><div><h2>Transaksi</h2><p>Catat setiap pemasukan dan pengeluaranmu.</p></div><button class="primary-btn" id="open-transaction">＋ Tambah transaksi</button></div>
+        <article class="panel form-panel" id="transaction-form-panel" hidden>
+          <div class="panel-heading"><div><h3 id="form-title">Tambah transaksi</h3><p>Isi detail transaksi di bawah ini.</p></div><button class="icon-btn" id="close-transaction" aria-label="Tutup">×</button></div>
+          <form id="transaction-form">
+            <input type="hidden" id="transaction-id">
+            <div class="form-grid">
+              <label class="field-label">Jenis transaksi<select id="transaction-type"><option value="expense">Pengeluaran</option><option value="income">Pemasukan</option></select></label>
+              <label class="field-label">Kategori<select id="transaction-category"></select></label>
+              <label class="field-label span-2">Nama transaksi<input id="transaction-name" required maxlength="70" placeholder="Contoh: Belanja bulanan"></label>
+              <label class="field-label">Nominal (Rp)<input id="transaction-amount" type="number" required min="1" step="1" placeholder="150000"></label>
+              <label class="field-label">Tanggal<input id="transaction-date" type="date" required></label>
+              <label class="field-label span-2">Catatan (opsional)<input id="transaction-note" maxlength="120" placeholder="Tambahkan catatan kecil..."></label>
+            </div>
+            <div class="form-actions"><button type="button" class="secondary-btn" id="cancel-transaction">Batal</button><button class="primary-btn" type="submit">Simpan transaksi</button></div>
+          </form>
+        </article>
+        <article class="panel">
+          <div class="panel-heading"><div><h3>Riwayat transaksi</h3><p>Semua catatan pemasukan dan pengeluaran.</p></div>
+            <select id="transaction-filter" class="filter-select"><option value="all">Semua transaksi</option><option value="income">Pemasukan</option><option value="expense">Pengeluaran</option></select>
+          </div>
+          <div id="transaction-list"></div>
+        </article>
+      </section>
+
+      <section id="reports-page" class="page">
+        <div class="page-intro"><div><h2>Laporan keuangan</h2><p>Pahami ke mana uangmu pergi dan dari mana pemasukanmu berasal.</p></div></div>
+        <article class="panel report-filter-panel">
+          <div class="report-filter-heading"><div><h3>Periode laporan</h3><p>Pilih rentang waktu yang ingin kamu analisis.</p></div>
+            <select id="report-period" class="filter-select" aria-label="Periode laporan">
+              <option value="month">Bulan ini</option><option value="last-month">Bulan lalu</option><option value="year">Tahun ini</option><option value="all">Semua waktu</option><option value="custom">Pilih tanggal</option>
+            </select>
+          </div>
+          <div id="report-custom-range" class="report-custom-range" hidden>
+            <label class="field-label">Dari tanggal<input id="report-start" type="date"></label>
+            <label class="field-label">Sampai tanggal<input id="report-end" type="date"></label>
+          </div>
+          <p id="report-period-label" class="report-period-label"></p>
+        </article>
+        <div class="report-summary-grid">
+          <article class="report-stat income-report"><span>Pemasukan</span><strong id="report-income">Rp0</strong><small id="report-income-count">0 transaksi</small></article>
+          <article class="report-stat expense-report"><span>Pengeluaran</span><strong id="report-expense">Rp0</strong><small id="report-expense-count">0 transaksi</small></article>
+          <article class="report-stat balance-report"><span>Selisih</span><strong id="report-net">Rp0</strong><small>Pemasukan dikurangi pengeluaran</small></article>
+        </div>
+        <div class="report-grid">
+          <article class="panel report-panel"><div class="panel-heading"><div><h3>Pengeluaran per kategori</h3><p>Urutan kategori dengan pengeluaran terbesar.</p></div></div><div id="report-expense-categories" class="report-bars"></div></article>
+          <article class="panel report-panel"><div class="panel-heading"><div><h3>Sumber pemasukan</h3><p>Dari mana uangmu berasal.</p></div></div><div id="report-income-categories" class="report-bars"></div></article>
+        </div>
+        <article class="panel report-panel"><div class="panel-heading"><div><h3>Tren enam bulan</h3><p>Perbandingan pemasukan dan pengeluaran per bulan.</p></div></div><div id="report-monthly-trend" class="monthly-trend"></div></article>
+        <article class="panel report-panel"><div class="panel-heading"><div><h3>Rincian transaksi</h3><p>Semua transaksi dalam periode terpilih.</p></div><span id="report-transaction-count" class="report-count">0 transaksi</span></div><div id="report-transaction-list" class="report-transaction-list"></div></article>
+        <p class="disclaimer">Laporan dihitung dari transaksi yang tersimpan di perangkat ini.</p>
+      </section>
+
+      <section id="installments-page" class="page">
+        <div class="page-intro"><div><h2>Tracker cicilan</h2><p>Kelola kewajiban bulanan dengan lebih teratur.</p></div><button class="primary-btn" id="open-installment">＋ Tambah cicilan</button></div>
+        <div class="debt-summary"><span>Total sisa cicilan</span><strong id="debt-total">Rp0</strong><small>Jumlah sisa pokok dari semua cicilan yang dicatat.</small></div>
+        <article class="panel form-panel" id="installment-form-panel" hidden>
+          <div class="panel-heading"><div><h3 id="installment-form-title">Tambah cicilan</h3><p>Masukkan informasi cicilanmu.</p></div><button class="icon-btn" id="close-installment" aria-label="Tutup">×</button></div>
+          <form id="installment-form">
+            <input type="hidden" id="installment-id">
+            <div class="form-grid">
+              <label class="field-label span-2">Nama cicilan<input id="installment-name" required maxlength="70" placeholder="Contoh: Cicilan laptop"></label>
+              <label class="field-label">Total pinjaman awal (Rp)<input id="installment-principal" type="number" min="1" required placeholder="3000000"></label>
+              <label class="field-label">Sisa cicilan saat ini (Rp)<input id="installment-remaining" type="number" min="0" required placeholder="2000000"></label>
+              <label class="field-label">Pembayaran per bulan (Rp)<input id="installment-monthly" type="number" min="1" required placeholder="500000"></label>
+              <label class="field-label">Tanggal jatuh tempo<input id="installment-due" type="date" required></label>
+              <label class="field-label span-2">Catatan (opsional)<input id="installment-note" maxlength="120" placeholder="Contoh: dibayar setiap tanggal 15"></label>
+            </div>
+            <div class="form-actions"><button type="button" class="secondary-btn" id="cancel-installment">Batal</button><button class="primary-btn" type="submit">Simpan cicilan</button></div>
+          </form>
+        </article>
+        <div id="installment-list" class="installment-grid"></div>
+      </section>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+      window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(err => console.log("SW registration failed", err)));
+    }
+  </script>
+</body>
+</html>
